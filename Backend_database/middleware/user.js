@@ -1,18 +1,18 @@
 const { User } = require("../db");
 
-const userMiddleware = () => {
+function userMiddleware(req, res, next) {
   const username = req.headers.username;
   const password = req.headers.password;
-  User.findone({
+  User.findOne({
     username,
     password,
   }).then((value) => {
     if (value) {
       next();
     } else {
-      res.status(401).send("No autorizado");
+      res.status(401).send("Invalid Credentials");
     }
   });
-};
+}
 
-module.exports(userMiddleware);
+module.exports = userMiddleware;
